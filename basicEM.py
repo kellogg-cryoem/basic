@@ -261,3 +261,16 @@ scale_bar_length = 1000 #in angstrom
 lpm = add_scale_bar(lpm,angpix,scale_bar_length)
 plt.imshow(lpm, interpolation='bilinear', cmap='gray')
 
+
+# In[89]:
+
+
+#this is for reading cryosparc .cs files into dataframe
+#requires numba, pyfftw
+def read_cs(csfile):
+    from pyem import metadata
+    from pyem import star
+    cs = np.load(csfile)
+    df = metadata.parse_cryosparc_2_cs(cs)
+    return df
+
