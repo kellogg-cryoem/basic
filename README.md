@@ -1,2 +1,2 @@
 # basic
-Codes for basic image process
+basic functions for image processing
