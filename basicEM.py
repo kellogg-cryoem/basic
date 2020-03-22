@@ -9,7 +9,6 @@ import pandas as pd
 import numpy as np
 
 import mrcfile as mrc
-m = mrc.open('/local1/workdir1/cryosparc/ehk68/P23/J16/motioncorrected/Cascade_grid3_0051_patch_aligned_doseweighted.mrc')
 
 
 # In[2]:
@@ -51,12 +50,6 @@ def fft_crop(m,scale):
 # In[5]:
 
 
-square_m = square(m.data)
-small_m = fft_crop(square_m,0.25)
-small_m.shape
-
-
-# In[6]:
 
 
 def fftim(m):
@@ -81,12 +74,6 @@ def gauss2d(sz,sigma,center):
     [R,C] = np.meshgrid(ndx,ndx);
     return gaussC(R,C,sigma,center)
 
-testgauss = np.add( np.dot( gauss2d(512,10,[256,256]), -1 ), 1)
-testgauss.shape
-plt.imshow(testgauss,vmin=0,vmax=1, cmap='gray' )
-
-
-# In[8]:
 
 
 def circmask(sz,radius,center):
@@ -101,34 +88,7 @@ def circmask(sz,radius,center):
 # In[9]:
 
 
-cm = circmask(512,10,[256,256])
-cm=np.add( np.dot( cm, -1), 1)
-plt.imshow(cm)
-
-
-# In[10]:
-
-
-cm[0,0]
-
-
-# In[11]:
-
-
-testgauss[0,0]
-
-
-# In[12]:
-
-
-testmask = gauss2d(512,100000,[256,256])
-plt.imshow(testmask)
-
-
-# In[13]:
-
-
-def show_power_spectra(im):
+def show_power_spectra(im,apix):
     get_ipython().run_line_magic('matplotlib', 'inline')
     from matplotlib import pyplot as plt
     import numpy as np
@@ -137,7 +97,7 @@ def show_power_spectra(im):
     #1. FFT
     fft_im = ((fftim(square(im))))
     #2. crop FFT to 3 Angstrom
-    ndx = np.dot( fft_im.shape, 1.28/3 )
+    ndx = np.dot( fft_im.shape, apix/3 )
     c = np.dot( fft_im.shape , 0.5 )
     s = c - ndx
     e = c + ndx
@@ -171,46 +131,41 @@ def show_power_spectra(im):
 
 
 # In[14]:
+def power_spectra_window(im,indices,apix):
+    import numpy as np
+    #indices: startx endx, starty, endy
+    #1. FFT
+    fft_im = fftim(square(im[indices[0]:indices[1],indices[2]:indices[3]]))
+    #2. crop FFT to 3 Angstrom
+    #ndx = np.dot( fft_im.shape, apix/3 )
+    #c = np.dot( fft_im.shape , 0.5 )
+    #s = c - ndx
+    #e = c + ndx
+    #s = np.ndarray.astype(s,int)
+    #e = np.ndarray.astype(e,int)
+    #fft_im = fft_im[ (s[0]):(e[0]), (s[1]):(e[1])]
+    #3. take absolute value of FFT
+    fft_im = (np.abs(fft_im))
+    sz = fft_im.shape
+    center = np.dot(sz,0.5)
+    #6b. high-pass filter the fft
+    sigma = 100000
+    hpmask = gauss2d(sz[0],sigma,center)
+    hpmaskfft = np.multiply(abs(fft_im),hpmask)
+    #7. mask out central peak
+    #gmask=np.abs(np.add( np.dot( gauss2d(sz[0],10,center), -1 ), 1)) 
+    cm=np.add( np.dot( circmask(sz[0],10,center), -1), 1)
+    TheOriginalfft = np.multiply(hpmaskfft,cm)
+    return TheOriginalfft
 
-
-
-
-#minval = np.min(np.min(fft_im))
-#maxval = np.max(np.max(fft_im))
-
-#plt.imshow(np.abs(fft_im),vmin=0,vmax=10000000, cmap='gray' )
-#plt.show()
-#print(minval)
-#print(maxval)
-#plt.imshow(display_fft(square_m,1.28), interpolation='bilinear', cmap='gray', vmin=minval, vmax=maxval)
-#plt.show()
-tt = show_power_spectra(square_m)
-plt.imshow(abs(tt), interpolation='bilinear',cmap='gray')
-
-
-# In[15]:
-
-
-plt.rcParams['figure.figsize'] = [25, 25]
-plt.imshow(square(m.data), interpolation='bicubic', cmap='gray', vmin=0, vmax=1)
-plt.show()
-
-
-# In[16]:
-
-
-tt = np.real(np.fft.ifft2(np.fft.ifftshift(np.fft.fftshift(np.fft.fft2(square(m.data))))))
-plt.imshow(tt, interpolation='bicubic', cmap='gray')
-
-
-# In[39]:
 
 
 def lowpass_filt(m):
     #compute the indices in reciprocal space
-    mm = square(m.data)
+    #mm = square(m)
+    mm = m
     sz = mm.shape
-    testmask = gauss2d(sz[0],10000,[sz[0]/2,sz[1]/2])
+    testmask = gauss2d(sz[0],5000,[sz[0]/2,sz[1]/2])
     #ndx = np.ndarray.astype(np.dot( mm.shape, angpix/resolution ), int)
     fftm = np.fft.fftshift(np.fft.fft2(mm))
     maskedfft = np.multiply(fftm,testmask)
@@ -218,13 +173,6 @@ def lowpass_filt(m):
     return np.real(np.fft.ifft2(np.fft.ifftshift(maskedfft)))
 
 
-# In[58]:
-
-
-np.arange(0,10)
-
-
-# In[87]:
 
 
 def add_scale_bar(im,apix,len):
@@ -247,19 +195,6 @@ def add_scale_bar(im,apix,len):
     return im
 
 
-# In[88]:
-
-
-get_ipython().run_line_magic('matplotlib', 'inline')
-from matplotlib import pyplot as plt
-plt.rcParams['figure.figsize'] = [25, 25]
-print(m.data.shape)
-#lpm = fft_crop( lowpass_filt(m), 0.25) #there is a bug in fft_crop
-lpm = lowpass_filt(m)
-angpix = 1.28
-scale_bar_length = 1000 #in angstrom
-lpm = add_scale_bar(lpm,angpix,scale_bar_length)
-plt.imshow(lpm, interpolation='bilinear', cmap='gray')
 
 
 # In[89]:
@@ -274,3 +209,21 @@ def read_cs(csfile):
     df = metadata.parse_cryosparc_2_cs(cs)
     return df
 
+def radial_profile(data):
+    center = np.dot(data.shape,0.5)
+    #from https://stackoverflow.com/questions/21242011/most-efficient-way-to-calculate-radial-profile
+    y,x = np.indices((data.shape)) # first determine radii of all pixels
+    r = np.sqrt((x-center[0])**2+(y-center[1])**2)
+    ind = np.argsort(r.flat) # get sorted indices
+    print(len(ind))
+    sr = r.flat[ind] # sorted radii
+    sim = data.flat[ind] # image values sorted by radii
+    ri = sr.astype(np.int32) # integer part of radii (bin size = 1)
+    # determining distance between changes
+    deltar = ri[1:] - ri[:-1] # assume all radii represented
+    rind = np.where(deltar)[0] # location of changed radius
+    nr = rind[1:] - rind[:-1] # number in radius bin
+    csim = np.cumsum(sim, dtype=np.float64) # cumulative sum to figure out sums for each radii bin
+    tbin = csim[rind[1:]] - csim[rind[:-1]] # sum for image values in radius bins
+    radialprofile = tbin/nr # the answer
+    return radialprofile
