@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
 
 
 import matplotlib.pyplot as plt
@@ -11,7 +10,6 @@ import numpy as np
 import mrcfile as mrc
 
 
-# In[2]:
 
 
 def square(m):
@@ -22,7 +20,6 @@ def square(m):
     return m[0:mindim,0:mindim]
 
 
-# In[3]:
 
 
 def normalize(m):
@@ -30,7 +27,6 @@ def normalize(m):
     return np.dot(m,1/(sum(sum(m))))
 
 
-# In[4]:
 
 
 def fft_crop(m,scale):
@@ -47,18 +43,12 @@ def fft_crop(m,scale):
     return newim
 
 
-# In[5]:
-
-
-
 
 def fftim(m):
     import numpy as np
     return np.fft.fftshift(np.fft.fft2(m))
     
 
-
-# In[7]:
 
 
 def gaussC( x,y,sigma,center):
@@ -85,7 +75,6 @@ def circmask(sz,radius,center):
     return mask
 
 
-# In[9]:
 
 
 def show_power_spectra(im,apix):
@@ -130,7 +119,6 @@ def show_power_spectra(im,apix):
     
 
 
-# In[14]:
 def power_spectra_window(im,indices,apix):
     import numpy as np
     #indices: startx endx, starty, endy
@@ -197,7 +185,6 @@ def add_scale_bar(im,apix,len):
 
 
 
-# In[89]:
 
 
 #this is for reading cryosparc .cs files into dataframe
