@@ -1,0 +1,52 @@
+pdb = pdbread('chainA.pdb');
+mrc = ReadMRC('chainA.mrc');
+ticks = 1:length(mrc);
+[X,Y,Z] = meshgrid(ticks,ticks,ticks);
+len1dvec = size(X,1)*size(X,2)*size(X,3); 
+meshvec = [reshape(X,1,len1dvec);...
+           reshape(Y,1,len1dvec);...
+           reshape(Z,1,len1dvec)];
+tt=gauss3d(meshvec,[100,200,300]',2);
+
+apix = 0.656;
+apix=apix;
+%freq domain spacing is off
+box = 349;
+%ij = (fftfreq(box,2/(box*apix)));
+ij = (fftshift(fftfreq(box,1)));
+
+%[Mi,Mj] = meshgrid(ij,ij);
+%k = sqrt(Mi.^2 + Mj.^2 );
+
+Mm = zeros(size(Mi));
+tic
+Mm1d = zeros(1,length(ij));
+for(ii = 1:length(ij))
+   Mm
+   for(jj = 1:length(ij))
+        uu=gauss3dfast(ij(ii),100,1/40);
+        kk=gauss3dfast(ij(jj),100,1/40);
+        Mm(ii,jj) = real(uu);
+   end
+end
+figure()
+showImage(Mm)
+
+toc
+% outmap = zeros(size(mrc));
+% 
+% for(i = 1:length(meshvec))
+%         outmap(squeeze(meshvec(1,i)),...
+%                squeeze(meshvec(2,i)),...
+%                squeeze(meshvec(3,i))) = tt(i);
+% end
+% sum(sum(sum(abs(outmap-uu))))
+% subplot(1,2,1)
+% showImage(sum(outmap,3));
+% %showImage(sum(((fftshift(fftn(outmap)))),3))
+% subplot(1,2,2)
+% %showImage(sum(((fftshift(fftn(uu)))),3))
+% showImage(sum(real(uu),3));
+% %diff=sum(sum(sum(sim_map_inplace(pdb,mrc,1,read_etable('etable_def.m')) - ...
+% %sim_map_inplace_fast(pdb,mrc,1,read_etable('etable_def.m')))));
+% %diff
