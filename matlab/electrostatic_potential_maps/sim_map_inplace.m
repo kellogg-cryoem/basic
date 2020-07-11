@@ -15,15 +15,16 @@ function[outmap] = sim_map(atomic_model,inmap,apix,etable)
     meshvec = [reshape(X,1,len1dvec);...
                reshape(Y,1,len1dvec);...
                reshape(Z,1,len1dvec)];
-    
     sum_of_gauss = [];
     natoms = length(atomic_model.Model.Atom);
+    
     output1d = zeros(1,length(meshvec));
+    natoms
     
     for(ii = 1:natoms )
         atomName = atomic_model.Model.Atom(ii).AtomName;
         atomName = atomName(1);
-        ii
+       
         if( isKey(etable,atomName) )
             val = etable(atomName);
             ii_amp = val(1);
@@ -40,7 +41,8 @@ function[outmap] = sim_map(atomic_model,inmap,apix,etable)
                        ii_amp * gauss3d(meshvec,(ii_center'),ii_sigma);
         end
     end
-         
+    
+    
     for(i = 1:length(meshvec))
         outmap(squeeze(meshvec(1,i)),...
                squeeze(meshvec(2,i)),...

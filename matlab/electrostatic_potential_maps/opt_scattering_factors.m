@@ -13,18 +13,17 @@ emdids = {'EMD10101', 'EMD9914', 'scheres_apoF'};
 vals =  [0.656, 0.7858, 0.4]./4;
 
 angpix_ii = containers.Map(emdids,vals);
-niter = 100;
+niter = 20;
 
 etbl = read_etable('etable_def.m');
 
-test_std = [0.5:0.5:4];
-test_amp = [0.25:0.5:4];
-sumdiffs = zeros(1,8);
+test_std = [0.05:0.1:1.5];
+test_amp = [0.05:0.1:1.5];
 
 maps = {};
 pdbs = {};
 
-txt = textread('benchmark.lst','%s');
+txt = textread('phe.lst','%s');
 apix = zeros(1,length(txt));
 ii = 1;
 
@@ -49,11 +48,10 @@ for(ii = 1:niter)
     %pick a random atom to sample
     atom_ii = kys{randi(length(kys))};
     objfunc = zeros(length(test_std),length(test_amp));
-    ii
     for(jj = 1:length(test_std))
-        jj
+        
         for(kk = 1:length(test_amp))
-           kk
+           
            etbl(atom_ii) = [test_amp(kk), test_std(jj)];
            objfunc_ii_kk = 0;
            
@@ -71,6 +69,7 @@ for(ii = 1:niter)
            
         end
     end
+    ii
     save(strcat('output/objfunc-',atom_ii,'-',num2str(ii),'.mat'),'objfunc');
     save(strcat('output/etbl-',atom_ii,'-',num2str(ii),'.mat'),'etbl');
     [rowj,colk] = find(objfunc == min(min(objfunc)));

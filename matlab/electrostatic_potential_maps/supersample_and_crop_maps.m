@@ -3,7 +3,7 @@ addpath('~/src/Matlab_EM/EMIODist/')
 addpath('~/src/Matlab_EM/MRCIO/')
 addpath('./src/')
 
-txt = textread('lst','%s');
+txt = textread('phe.lst','%s');
 ii = 1;
 
 %EMD10101 0.656
