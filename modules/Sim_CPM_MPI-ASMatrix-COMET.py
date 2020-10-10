@@ -1,8 +1,9 @@
+# Pushed again to maintain author history
 # This is a version of the code that is friendly for use with COMET, one of the 
 # computing clusters available through XSEDE. This specific sim script can be used
 # to simulate models and vary all-atom scattering factor amplitude and stdev.
 # Additionally this code uses COMET gpu's and can be used with full gpu node or
-# gpu-shared options.
+# gpu-shared options. 
 
 from mpi4py import MPI
 import numpy as np
