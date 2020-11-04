@@ -149,7 +149,7 @@ comm.Reduce(SumArray,totals, op=MPI.SUM,root = 0)
 
 if rank == 0:
 	outmap = np.real(np.transpose(np.fft.ifftn(totals)))
-	ExpMRCScale(outmap,'EMD-7638-TRUNC-APIX12-SFScaleDivi-SwitchPDB10-BOX280v1.mrc')
+	ExpMRCScale(outmap,'EMD-7638-TRUNC-APIX08-SFScaleDivi-SwitchPDB10-BOX280v1.mrc')
 	print(outmap)
 	NewFName = 'EMD-7638-TRUNC-APIX08-SFScaleDivi-SwitchPDB10-BOX280v1-HeaderApix.mrc'
 	with mrcfile.new(NewFName,overwrite=True) as mrc:
