@@ -25,7 +25,7 @@ def ExpMRCScale(npdata,filename):
     CurrData = npdata
     CurrData = CurrData - Min
     ReviData = CurrData/(Max-Min)
-    NewF = filename[:-4] + '-SCALED-VRS-HeaderApix.mrc'
+    NewF = filename[:-4] + '-SCALED.mrc'
     with mrcfile.new(NewF,overwrite= True) as mrc:
         mrc.set_data(np.float32(ReviData))
         mrc._set_voxel_size(apix,apix,apix)
