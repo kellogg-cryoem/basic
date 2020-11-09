@@ -9,6 +9,7 @@ from cupy import cuda
 import os
 import sys
 import argparse
+import pandas as pd
 
 # Setting up MPI and pi constant
 pi = np.pi
@@ -33,9 +34,29 @@ if rank == 0:
 	parser.add_argument('--OCstd',default=4.15,type=float,help='Define scattering factor STDEV for backbone carbonyl oxygen atoms')
 	parser.add_argument('--HeavyAmp',default=1.2,type=float,help='Define scattering factor amplitude for general heavy atoms')
 	parser.add_argument('--Heavystd',default=3.2,type=float,help='Define scattering factor STDEV for general heavy atoms')
+	parser.add_argument('--allatom',action='store_true',default = False,help = 'Reads scat. factor table provided and associates atoms not specifically defined with general value. In TYPE column, write "all-atom')
+	parser.add_argument('--readetable',action='store',default='',type=str,help= 'Reads input scat. factor table for Gaussian calculations, please use CSV, use columns TYPE,SFAMP,SFSTD')
 	args = parser.parse_args()
 else:
 	args = None
+
+
+# Reads in electron-scattering factor table, and changes atom scattering factor arguments for use later during Gaussian addition, preliminary for now
+def SFRead(CsvFile):
+	Table = pd.read_csv(CsvFile).reset_index(drop = True)
+	if(allatom == True):
+		for i in range(0,len(Table)):
+			if(Table.at[i,'Type'] == 'all-atom'):
+				args.HAmp = args.HeavyAmp = args.OCAmp = Table.at[i,'SFAMP']
+				args.Hstd = args.Heavystd = args.OCstd = Table.at[i,'SFSTD']
+	for i in range(0,len(Table)):
+		if(Table.at[i,'Type'] == 'H'):
+			args.HAmp = Table.at[i,'SFAMP']
+			args.Hstd = Table.at[i,'SFSTD']
+		if(Table.at[i,'Type'] == 'OCbb'):
+			args.OCAmp = Table.at[i,'SFAMP']
+			args.OCstd = Table.at[i,'SFSTD']
+
 
 #Can use this to scale values of MRC between 0 and 1
 def MRCScale(npdata,filename):
