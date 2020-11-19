@@ -36,6 +36,7 @@ if rank == 0:
 	parser.add_argument('--Heavystd',default=3.2,type=float,help='Define scattering factor STDEV for general heavy atoms')
 	parser.add_argument('--allatom',action='store_true',default = False,help = 'Reads scat. factor table provided and associates atoms not specifically defined with general value. In TYPE column, write "all-atom')
 	parser.add_argument('--readetable',action='store',default='',type=str,help= 'Reads input scat. factor table for Gaussian calculations, please use CSV, use columns TYPE,SFAMP,SFSTD')
+	parser.add_argument('--GPUstart',default=0,type=int,help='If earlier GPUs are being used, use this to set which GPU to start using. Not compatible with multinode option.')
 	args = parser.parse_args()
 else:
 	args = None
@@ -159,7 +160,7 @@ else:
 
 # Splits up processes to separate GPU's, multinode refers to use in COMET cluster
 if(args.multinode == False):
-	Dev = int(rank/(args.procpergpu))
+	Dev = int(rank/(args.procpergpu))+args.GPUstart
 else:
 	RankID = rank
 	RankID = comm.gather(RankID,root = 0)
