@@ -14,7 +14,7 @@ args = parser.parse_args()
 
 
 StartRec = False
-random.seed(10)
+random.seed(args.random_seed)
 
 def GetHeader(File):
 	Header = False
