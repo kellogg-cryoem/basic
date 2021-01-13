@@ -1,3 +1,5 @@
+# Most recent edit: 1/13/21
+
 from mpi4py import MPI
 import numpy as np
 import mrcfile
@@ -10,6 +12,8 @@ import os
 import sys
 import argparse
 import pandas as pd
+import scipy
+import scipy.optimize as opt
 
 # Setting up MPI and pi constant
 pi = np.pi
@@ -37,9 +41,60 @@ if rank == 0:
 	parser.add_argument('--allatom',action='store_true',default = False,help = 'Reads scat. factor table provided and associates atoms not specifically defined with general value. In TYPE column, write "all-atom')
 	parser.add_argument('--readetable',action='store',default='',type=str,help= 'Reads input scat. factor table for Gaussian calculations, please use CSV, use columns TYPE,SFAMP,SFSTD')
 	parser.add_argument('--GPUstart',default=0,type=int,help='If earlier GPUs are being used, use this to set which GPU to start using. Not compatible with multinode option.')
+	parser.add_argument('--scoremrc',default='',type=str,help = 'If enacted, allows you to score the mrc file against an expt. control, write it to a file, and close.')
+	parser.add_argument('--scorecsv',default='',type=str,help='Add this with scoremrc to report the difference score and also delete sim file at the end of the reporting.')
+	parser.add_argument('--reso',default = 0.0,type = float, help= 'Use to simulate model at a specific resolution. Units in angstrom. Requires use of resofit option.')
+	parser.add_argument('--resofit',default = 'Res_STDEV-Fit-1_12_21.csv',type = str,help = 'Use this to input a reso-STDEV dataset to fit STDEV values. Please have one column named Resolution and another named STDEV.')
 	args = parser.parse_args()
 else:
 	args = None
+
+
+# Sigmoid function used for resolution-STDEV fitting
+def sigmoid(x,a,b,c,d):
+    return a/(1. + np.exp(-c*(x-d))) + b
+
+# Actual fitting of sigmoid function to points
+
+def resofitter(file):
+    DF = pd.read_csv(file).reset_index(drop = True)
+    x = DF['Resolution'].tolist()
+    y = DF['STDEV'].tolist()
+    (a_, b_, c_, d_), _ = opt.curve_fit(sigmoid, x, y)
+    return a_,b_,c_,d_
+
+#Use this to do scoring immediately after simulation
+def ScaleMatchDiff(filename,expmrc):
+    Sim = mrcfile.open(filename)
+    npdata = Sim.data
+    Min = np.amin(npdata)
+    Max = np.amax(npdata)
+    CurrData = np.array(npdata)
+    CurrData = npdata
+    CurrData = CurrData - Min
+    ReviData = CurrData/(Max-Min)
+    ExpD = expmrc
+    Match = match_histograms(ReviData, ExpD.data)
+    Match = Match.astype(np.float32)
+    Diff = ((ExpD.data-Match.data)**2)
+    Sum = np.sum(Diff)
+    return Sum
+
+
+#Can use this to scale values of MRC between 0 and 1
+def MRCScale(npdata,filename):
+    Min = np.amin(npdata)
+    Max = np.amax(npdata)
+    print(Max-Min)
+    CurrData = np.array(npdata)
+    CurrData = npdata
+    CurrData = CurrData - Min
+    ReviData = CurrData/(Max-Min)
+    NewF = filename[:-4] + '-SCALED.mrc'
+    with mrcfile.new(NewF,overwrite= True) as mrc:
+        mrc.set_data(np.float32(ReviData))
+        mrc._set_voxel_size(apix,apix,apix)
+        mrc.close()
 
 
 # Reads in electron-scattering factor table, and changes atom scattering factor arguments for use later during Gaussian addition, preliminary for now
@@ -121,6 +176,14 @@ def GaussForm(AtomicData):
 	OutputArray = cp.zeros((BoxS,BoxS,BoxS))
 	OutputArray = cp.array(OutputArray, dtype = np.complex64)
 	scalefac = float(apix)
+
+	# Fit STDEV values
+	if(args.reso != 0):
+		resofac = sigmoid(args.reso,a_,b_,c,d_)
+		args.Heavystd *= resofac
+		args.OCstd *= resofac
+		args.Hstd *= resofac
+
 	for atom in AtomicData:
 		#t1 = time.time()
 		if(atom[0][0] == 'H'):
@@ -192,6 +255,20 @@ print('This rank will be associated with GPU: ' + str(Dev))
 
 comm.Barrier()
 
+if rank == 0:
+	# Starts fitting
+	if(args.reso != 0):
+		a_,b_,c_,d_ = resofitter(args.resofit)
+	else:
+		a_,b_,c_,d_ = 0,0,0,0
+else:
+	a_,b_,c_,d_ = None,None,None,None
+
+a_ = comm.bcast(a_,root = 0)
+b_ = comm.bcast(b_,root = 0)
+c_ = comm.bcast(c_,root = 0)
+d_ = comm.bcast(d_,root = 0)
+
 # Rank 0 process does pyrosetta work and gathers atom coordinates/type
 if rank == 0:
 	init()
@@ -237,3 +314,15 @@ if rank == 0:
 		mrc.set_data(np.float32((outmap)))
 		mrc._set_voxel_size(apix,apix,apix)
 	mrc.close()
+	if((args.scoremrc != '') and (args.scorecsv != '')):
+		ExpS = mrcfile.open(args.scoremrc)
+		Val = ScaleMatchDiff(args.output,ExpS)
+		NewFileCheck = path.exists(args.scorecsv)
+		f = open(args.scorecsv,'a')
+		if(NewFileCheck == False):
+			f.write('HeavyAmp,HeavySTD,HydAmp,HydSTD,OCAmp,OCSTD,Score')
+			f.write('\n') 
+		Repo = str(args.HeavyAmp) + ',' + str(args.Heavystd) + ',' + str(args.HAmp) + ',' + str(args.Hstd) + ',' + str(args.OCAmp) + ',' + str(args.OCstd) + ',' + str(Val) + '\n'
+		f.write(Repo)
+		f.close()
+		os.remove(args.output)
