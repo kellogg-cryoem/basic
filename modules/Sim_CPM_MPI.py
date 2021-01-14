@@ -9,11 +9,16 @@ from pyrosetta.toolbox import cleanATOM
 import cupy as cp
 from cupy import cuda
 import os
+from os import path
 import sys
 import argparse
 import pandas as pd
 import scipy
 import scipy.optimize as opt
+import math
+import skimage
+from skimage import exposure
+from skimage.exposure import match_histograms
 
 # Setting up MPI and pi constant
 pi = np.pi
@@ -179,7 +184,7 @@ def GaussForm(AtomicData):
 
 	# Fit STDEV values
 	if(args.reso != 0):
-		resofac = sigmoid(args.reso,a_,b_,c,d_)
+		resofac = sigmoid(args.reso,a_,b_,c_,d_)
 		args.Heavystd *= resofac
 		args.OCstd *= resofac
 		args.Hstd *= resofac
@@ -193,6 +198,8 @@ def GaussForm(AtomicData):
 		else:
 			scattering_params = cp.array([args.HeavyAmp,args.Heavystd])
 		scattering_params = (scattering_params/scalefac)
+		if(scattering_params[1] == 0.0):
+			continue
 		coords = atom[1:]
 		center = cp.array([cp.float(coords[0]/apix),coords[1]/apix,cp.float(coords[2]/apix)])
 		s = cp.float(1/scattering_params[1])
@@ -314,6 +321,7 @@ if rank == 0:
 		mrc.set_data(np.float32((outmap)))
 		mrc._set_voxel_size(apix,apix,apix)
 	mrc.close()
+	# You can use this for running on something like XSEDE to produce a comprehensive spreadsheet instead of producing every simulated mrc, conserving space.
 	if((args.scoremrc != '') and (args.scorecsv != '')):
 		ExpS = mrcfile.open(args.scoremrc)
 		Val = ScaleMatchDiff(args.output,ExpS)
