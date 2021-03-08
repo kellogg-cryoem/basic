@@ -5,6 +5,7 @@ import numpy as np
 from scipy.constants import physical_constants
 from scipy.interpolate import RegularGridInterpolator
 from scipy.ndimage import zoom
+import CTF_calculator as ctfcalc
 
 # %%
 def wavelength(V):
@@ -80,7 +81,7 @@ def ctf_2d(box,angpix, defocus_U, defocus_V, astigmatism, amplitude_contrast, la
     return -np.sqrt(1 - amplitude_contrast**2)*np.sin(gamma) - amplitude_contrast*np.cos(gamma)
 
 # %%
-def simulate_image_direct(mrcf, v, V, defocus, C_s):
+def simulate_image_direct(mrcf, v, V,defocusU,defocusV,astig_angle,C_s):
     """Simulate a pair of images, with and without Ewald Sphere curvature
     effects
     
@@ -166,7 +167,7 @@ def simulate_image_direct(mrcf, v, V, defocus, C_s):
     
     # Calculate defocus term
     lam = wavelength(200) #angstrom
-    chi = np.pi*(0.5*C_s*lam**3*s**4 - defocus*lam*s**2)
+    chi = np.pi*(0.5*C_s*lam**3*s**4 - (defocusU+defocusV/2)*lam*s**2)
 
     freqs_integer = np.arange(-N//2, N//2, dtype=np.int16)
     l, k, h = np.meshgrid(freqs_integer, freqs_integer, freqs_integer, indexing='ij')
@@ -197,7 +198,9 @@ def simulate_image_direct(mrcf, v, V, defocus, C_s):
     
     xi_ctf = np.stack((xi_x, xi_y)).T
     #Defocus given as angstrom, but in ctf_2d takes as nm
-    ctf_samples = ctf_2d(N,angpix, defocus, defocus, 0, 0.1, lam, C_s) 
+
+    #ctf_samples = ctf_2d(N,angpix, defocus, 0, 0.1, lam, C_s) 
+    ctf_samples = ctfcalc.get_ctf(angpix,N,defocusU,defocusV,astig_angle,C_s,300,0.1,0)
     I_hat_no_curvature_ctf = I_hat_no_curvature*ctf_samples
 
     I_hat_no_curvature = (1/angpix)**2*phase_shift*I_hat_no_curvature
@@ -232,7 +235,7 @@ def simulate_image_direct(mrcf, v, V, defocus, C_s):
 
     I_no_curvature = np.real(I_no_curvature)
     I_no_curvature_ctf = np.real(I_no_curvature_ctf)    
-    return I_no_curvature, I_no_curvature_ctf, R
+    return I_no_curvature, I_no_curvature_ctf, R,ctf_samples
 
 # %%
 #I,I_ctf, R = simulate_image_direct('/Users/ekellogg/projects/datasets/STC/cryosparc_exp000067_006.mrc', [0, 1, 1], 300, 30000, 2.7)
