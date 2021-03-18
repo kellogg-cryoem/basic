@@ -65,6 +65,8 @@ if rank == 0:
 	parser.add_argument('--outputtxt', default = '', type = str, help = 'Save FRC output as text file')
 	parser.add_argument('--sim_mrcs',default = '', type = str, help = ' Adds simulated images into mrcs file')
 	parser.add_argument('--savestar', default = '', type = str, help = 'Save star file, converted to DF, as a csv.')
+	parser.add_argument('--simload', default= '',type = str, help = 'If you got simulated images alreacy created, use this to load the mrcs.')
+	parser.add_argument('--mask', default = '', type = str, help = 'Use option to add mask to raw image. For now, can only be used with simload option.')
 	args = parser.parse_args()
 else:
 	args = None
@@ -181,6 +183,9 @@ if rank == 0:
 	if path.exists(fname) == False:
 		print('Cannot find!')
 		print(fname)
+	if(args.mask != ''):
+		mask = mrcfile.open(args.mask)
+		mask = mask.data
 	if path.exists(fname):
 		ptcl_imgs = mrcfile.open(fname)
 		apix = np.float32(ptcl_imgs.voxel_size['x'])
@@ -190,9 +195,13 @@ if rank == 0:
 else:
 	apix = None
 	boxsize = None
+	if(args.mask != ''):
+		mask = None
 
 apix = comm.bcast(apix,root = 0)
 boxsize = comm.bcast(boxsize, root = 0)
+if(args.mask != ''):
+	mask = comm.bcast(mask, root = 0)
 
 for ptcli in range(0,len(AtomID)):
 	print('This is the current particle being examined: ' + str(ptcli))
@@ -204,6 +213,7 @@ for ptcli in range(0,len(AtomID)):
 		print('Cannot find!')
 		print(fname)
 		break
+
 	if path.exists(fname):
 		ptcl_imgs = mrcfile.open(fname)
 		Rrot = aR.from_euler('z',star.iloc[AtomID[ptcli]].rlnAngleRot,degrees=True)
@@ -221,6 +231,56 @@ for ptcli in range(0,len(AtomID)):
 
 		R = Rrot * Rtilt * Rpsi
 		R.as_dcm()
+
+
+		if(args.simload != ''):
+
+			if(len(ptcl_imgs.data.shape) > 2):
+				try:
+					ptcl_img = ptcl_imgs.data[int(ii_ndx)-1,:,:]
+				except:
+					print('Ptcl_img not found.')
+					continue
+			else:
+				ptcl_img = ptcl_imgs.data
+
+			if(args.mask != ''):
+					#ptcl_fft = np.fft.fftn(ptcl_img)
+					#ptcl_fft_shift = np.fft.fftshift(ptcl_fft)
+					ptcl_mask,ptcl_mask_ctf,R,OGctf = simim.simulate_image_direct(args.mask, R.as_dcm(), lam,defocusU,defocusV,defocusang, C_s)
+					#ptcl_mask_fft = np.fft.fftn(ptcl_mask)
+					#ptcl_mask_fft_shift = np.fft.fftshift(ptcl_mask_fft)
+					#ptcl_fft_ptcl_mask_multi = ptcl_fft_shift * ptcl_mask_fft_shift
+					ptcl_multiply = ptcl_img * ptcl_mask
+					#ptcl_masked = np.fft.ifftn(ptcl_multiply_ifftshift)
+					ptcl_img = ptcl_multiply
+
+			sim_imgs = mrcfile.open(args.simload)
+			if(len(sim_imgs.data.shape) > 2):
+				try:
+
+					ifft_ctf = sim_imgs.data[AtomID[ptcli],:,:]
+				except:
+					print('Image not found.')
+					print('This is the ii_ndx looked for: ' + str(ii_ndx))
+					continue
+			else:
+				ifft_ctf = sim_imgs.data
+
+			if (args.plotprefix != ''):
+				PtclFile = args.plotprefix + '-RefPtcl-' + str(AtomID[ptcli]) + '.png'
+				SimFile = args.plotprefix + '-SimPtcl-' + str(AtomID[ptcli]) + '.png'
+
+				plt.imsave(PtclFile,(np.real(ptcl_img).astype(np.float32)))
+				plt.imsave(SimFile,ifft_ctf)
+
+
+			f_ii,fsc_ii = fourier_ring_corr.FSC(ptcl_img, ifft_ctf,disp=0)
+			f.append(f_ii)
+			fsc.append(fsc_ii)
+			ndxs.append(ptcli)
+			continue
+
 
 		#simulate_image takes defocus in Angstrom, usually given in nm
 		prj_img,prj_img_ctf,R,OGctf = simim.simulate_image_direct(reftest, R.as_dcm(), lam,defocusU,defocusV,defocusang, C_s)
@@ -259,10 +319,8 @@ for ptcli in range(0,len(AtomID)):
 			ptcl_img = ptcl_imgs.data
 
 		angpix = np.float32(ptcl_imgs.voxel_size['x'])
-		if angpix == 0 and args.force_apix != 0:
+		if angpix == 0:
 			angpix = args.force_apix
-		else:
-			print('Unable to find apix value. Please check mrc provided or use force_apix option.')
 		ogdim = new_im.shape[0]
 		ctf_samples = ctfcalc.get_ctf(angpix,ogdim,defocusU,defocusV,defocusang,C_s,300,0.1,0)
 		prj_fft = np.fft.fftn(new_im)
