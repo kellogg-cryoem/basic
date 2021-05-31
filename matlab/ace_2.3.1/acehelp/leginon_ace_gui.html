@@ -1,0 +1,331 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE"
+ content="text/html; charset=iso-8859-1">
+  <title>ACE Documentation</title>
+  <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+  <meta name="CREATED" content="20040915;11434500">
+  <meta name="CHANGED" content="20040915;11473200">
+  <meta name="ProgId" content="FrontPage.Editor.Document">
+  <meta http-equiv="Content-Language" content="en-us">
+</head>
+<body lang="en-US">
+<p align="center"><font size="5">LEGINON ACE DOCUMENTATION</font></p>
+<hr>
+<p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"
+ align="center">&nbsp;
+</p>
+<p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"
+ align="center"><img border="0" src="images/leginon_ace_gui.png" width="1198" height="603">
+</p>
+<ol>
+  <li>
+    <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>Experiment Name :</b> Name of the experiment. The
+directory corresponding to the experiment name is shown below the
+experiment name.</p>
+  </li>
+  <li><span style="font-weight: bold;">Run Name : </span>You can
+process the same experiment multiple times. Run names lets you
+differentiate between them.&nbsp; <br>
+  </li>
+  <li>
+    <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>Database Type: </b>The two database types are
+Leginon1 and Leginon2 . In Leginon1 the Kilovolts (KV) and pixel size
+(ps) cannot be queried and so the user has to provide that
+information.&nbsp; Leginon 1 option is not tested extensively. In
+future versions Leginon 1 will not be supported. The &quot;Configure
+    Database&quot; button allows you to specify your databases.&nbsp;
+    </p>
+  </li>
+  <li>
+    <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>Boolean:&nbsp;</b> </p>
+    <ul>
+      <li>
+        <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 150%;"
+ align="left"><b>Astigmatism</b>&nbsp; : Turns on astigmatism
+estimation. Otherwise circular averaging is done.&nbsp; </p>
+      </li>
+      <li>
+        <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 150%;"
+ align="left"><b>Display </b>: Stores graphs for visual inspection of
+results in output image directory.&nbsp; </p>
+      </li>
+      <li>
+        <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 150%;"
+ align="left"><b>Write to Database</b>: Writes the calculated
+parameters to the database in addition to writing to mat files.&nbsp; </p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>File Type:&nbsp; </b>Choose the file type and the
+corresponding file filter. The file types foc, efar and enr correspond
+to focus, far from focus and near to focus&nbsp; respectively. </p>
+  </li>
+  <li>
+    <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>Directories :&nbsp;</b> </p>
+    <ul>
+      <li>
+        <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>Space 1 : </b>The first space is for the parent
+directory inside which the output is stored. This directory should
+exist. You can browse to select a directory. </p>
+      </li>
+      <li>
+        <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>Space 2 :</b>&nbsp; Directory for mat files. This is a
+relative path. The complete path is shown on the textbox to it
+right.&nbsp; </p>
+      </li>
+      <li>
+        <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>Space 3 :</b>&nbsp; Directory for output images.&nbsp;
+This is a relative path. The complete path is shown on the textbox to
+it right.&nbsp; </p>
+      </li>
+      <li>
+        <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>Space 4:&nbsp; </b>Directory for temporary files.
+This is a relative path. The complete path is shown on the textbox to
+it right.&nbsp; If two copies of ACE are run from the same directory.
+The user should use two different temporary files directory to avoid
+conflict between the two copies of ACE.&nbsp; </p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>Advanced:&nbsp;</b> </p>
+    <ul>
+      <li>
+        <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>Edge Threshold : </b>The threshold set for edge
+detection for carbon and ice images. These values should be
+increased&nbsp; if the more edges detected in the power spectrum than
+the an elliptically shaped ring.&nbsp; Similarly if no edges are
+detected, the value should be decreased. Usually one should not need to
+change these values because ACE searches thru a range of values&nbsp;
+to get a good threshold.&nbsp; </p>
+      </li>
+      <li>
+        <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Compress Dynamic Range: </b>For ice images if the signal to
+        noise ratio looks very good ( i.e. Thon rings are very prominent ) and
+        still the result of edge detection is incorrect, check this
+        option.&nbsp; </p>
+      </li>
+      <li>
+        <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>Power Factor:&nbsp; </b>This determines the location
+of the upper cutoff frequency. If you notice that there are ripples
+visible in the power spectrum even beyond the upper cutoff frequency
+you can increase this value to accommodate more part of the power
+spectrum. The value should be decreased if the signal to noise ratio is
+less and only a few ripples are visible. </p>
+      </li>
+      <li>
+        <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>Averaging overlap and Field size: </b>Smaller images
+are cropped from the image (micrograph) given to the program. The power
+spectrum is found for all small images and they are averaged to improve
+signal to noise ratio. Field size refers to the width of each small
+image cropped. An Averaging overlap of "a" implies that the successive
+images have an overalp of (1-a)*field size. In other words a higher
+value of Averaging overlap means more number of smaller images are used
+for averaging.&nbsp; If the signal to noise ratio is very low, the
+averaging overlap should be changed for better estimate of power
+spectrum. </p>
+      </li>
+      <li>
+        <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>Hi-mag/Hi-defocus/Lo-ps: </b>When the defocus is large or the
+        pixel-size is very small ( which is equivalent to Hi-magnification) the
+        first zero of the CTF might be too close to the origin. Increase the
+        value of Resample.&nbsp; </p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>File List box:&nbsp; </b>Shows the list of file of
+the type selected. A single file can be selected by clicking on the
+filename. Multiple files can be selected by CTRL+click or (click and
+drag) and all files
+can be selected by CTRL+A. </p>
+  </li>
+  <li>
+    <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>Viewer: </b>The viewer you would like to see your
+images. If gqview is used, it takes you to the correct output
+directory. Other viewers (like xv ) are simply launched. </p>
+  </li>
+  <li>
+    <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>View Output:</b> Launches the viewer. </p>
+  </li>
+  <li>
+    <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>Process:&nbsp; </b>Starts processing of the selected
+images. </p>
+  </li>
+  <li>
+    <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>Help:&nbsp; </b>Displays this page.</p>
+  </li>
+  <li><span style="font-weight: bold;">Error Report:&nbsp; </span>ACE
+logs everything&nbsp; that is typed or output in the command prompt in
+a file named "session.log". A screenshot is also generated when you
+press the "Process" button. In the case of a crash, you can restart
+leginon_ace_gui and click on the error report. The file "session.log"
+and "screenshot.png" will be displayed so that the user knows exactly
+what would be sent as error report. You may choose to edit session.log
+to report only the last run. <br>
+  </li>
+  <li><span style="font-weight: bold;">Zip Report: </span>Zips the
+files "session.log" and "screenshot.png" into "report.zip" which you
+can email me. <br>
+  </li>
+  <li>
+    <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 150%;"
+ align="left"><b>Console Output: </b>The console (the command prompt
+in MATLAB desktop ) displays partial results in the following format.
+An example is also shown.<font size="2">&nbsp;&nbsp;</font> </p>
+    <p
+ style="margin: -1px; text-indent: 0pt; word-spacing: -1px; line-height: 100%;"
+ align="left">&nbsp; </p>
+    <table style="width: 815px; height: 81px;" border="1">
+      <tbody>
+        <tr>
+          <td align="center" width="78">
+          <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">&nbsp;&nbsp;&nbsp;&nbsp; Filename&nbsp;</font></p>
+          </td>
+          <td align="center" height="14" width="55">
+          <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">&nbsp;Nominal Defocus</font></p>
+          </td>
+          <td align="center" height="14" width="89">
+          <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">&nbsp;Crude defocus estimate&nbsp;</font></p>
+          </td>
+          <td align="center" height="14" width="104">
+          <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">Refined defocus1&nbsp; estimate&nbsp;</font></p>
+          </td>
+          <td align="center" height="14" width="115">
+          <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">Refined defocus2 estimate</font></p>
+          </td>
+          <td align="center" height="14" width="82">
+          <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">Amplitude contrast&nbsp;</font></p>
+          </td>
+          <td align="center" height="14" width="69">
+          <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">Astigmatism ratio</font></p>
+          </td>
+          <td align="center" height="14" width="69">
+          <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">Astigmatism angle&nbsp;</font></p>
+          </td>
+          <td align="center" height="14" width="96">
+          <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"
+ align="center"><font size="2">Confidence on results</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="16" width="78">
+          <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;">filename.mrc</p>
+          </td>
+          <td align="center" height="16" width="55">
+          <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">&nbsp;2.000000&nbsp;</font></p>
+          </td>
+          <td align="center" height="16" width="89">
+          <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2"> 2.068837</font></p>
+          </td>
+          <td align="center" height="16" width="104">
+          <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">&nbsp;1.975</font></p>
+          </td>
+          <td align="center" height="16" width="115">
+          <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">&nbsp;2.15</font></p>
+          </td>
+          <td align="center" height="16" width="82">
+          <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">&nbsp;0.06</font></p>
+          </td>
+          <td align="center" height="16" width="69">
+          <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">&nbsp;0.96 </font></p>
+          </td>
+          <td align="center" height="16" width="69">
+          <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">&nbsp;55.5 </font></p>
+          </td>
+          <td align="center" height="16" width="96">
+          <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;">0.95</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ol>
+<a href="leginon_ace_correct.html"></a>See also documentation for <a
+ href="ace.html">ace</a>, <a href="acedemo.html">acedemo</a> ,&nbsp; <a
+ href="acedemo_correct.html">acedemo_correct</a>&nbsp; and <a
+ href="leginon_ace_correct.html">leginon_ace_correct</a> . <br>
+&copy; <small>2004-2005 Satya P. Mallick</small><br>
+</body>
+</html>

@@ -1,0 +1,20 @@
+revnum=ace_2.3.1
+mkdir ../$revnum
+rm -rf temp/ ; 
+rm -rf matfiles/; 
+rm -rf opimages/;
+rm -rf correct/;
+rm *~; 
+rm *.mat; 
+rm session.log screenshot.png
+du -sh . 
+cp -R * ../$revnum/
+cd ../$revnum/
+rm -rf CVS
+cd acehelp
+rm -rf CVS
+cd images
+rm -rf CVS
+cd ../../../
+tar -czvf $revnum.tgz $revnum
+

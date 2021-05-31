@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="Content-Language" content="en-us">
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=windows-1252">
+  <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+  <meta name="ProgId" content="FrontPage.Editor.Document">
+  <title>ACE Documentation</title>
+</head>
+<body>
+<p align="center"><font size="5">LEGINON ACE CORRECT DOCUMENTATION</font></p>
+<hr>
+<p align="center"><img src="images/leginon_ace_correct.png" border="0"
+ height="528" width="915"><br>
+&nbsp;</p>
+<ol>
+  <li>
+    <p align="left"><b>Experiment Name :</b> Name of the experiment.
+The directory corresponding to the experiment name is shown to the left
+experiment name. </p>
+  </li>
+  <li>
+    <p align="left"><b>Database Type: </b>The two database types are
+Leginon1 and Leginon2 . </p>
+  </li>
+  <li>
+    <p align="left"><b>Correction Type: </b>The user has the option of
+"Phase and Amplitude" correction and "Phase only" correction.&nbsp; The
+difference between the two is that in Phase only correction only the
+phase of the CTF is flipped whereas in Phase and Amplitude correction,
+Wiener filtering is done to correct&nbsp; both phase and amplitude. If
+the envelope function and noise spectrum parameters are not available
+then phase only correction is recommended. For example if the
+parameters calculated from far from focus images are used&nbsp;&nbsp;
+to correct near to focus images ( after adjusting for the defocus
+difference ), the envelope function and noise spectrum parameter
+estimates of far from focus images are not reliable for near to focus
+images. In such a case phase only correction is recommended. </p>
+  </li>
+  <li>
+    <p align="left"><b>Extension:&nbsp; </b>The filename extension
+added to the corrected images. You may choose to save the corrected
+image with the same name as the input uncorrected image by unchecking
+the "Use extension" checkbox. Ensure that you are not writing to the
+input directory if you are not choosing an extension to avoid deletion
+of the original input images. </p>
+  </li>
+  <li>
+    <p align="left"><b>File Type: </b>The type of file you need to
+correct. The file selection filter should be specified in the editable
+textboxes. Note that if you are using far from focus image parameters
+to correct near to focus images , the file&nbsp; filter specified in
+the "Other" editable box is used to load the mat files of far from
+focus image parameters.&nbsp; For example, if filename_enr.mrc is
+selected for correction and the correction is done using mode 2 ( see
+later ) so that the corresponding far from focus images parameters are
+used for correction, then the parameters of filename_efar.mrc are used
+for correcting filename_enr.mrc if the file filters for enr is
+"*enr.mrc" and "Other" is "*efar.mrc". If&nbsp; "*efar.mrc" is changed
+to "*fc.mrc" then the parameters are chosen from file filename_fc.mrc. </p>
+  </li>
+  <li>
+    <p align="left"><b>Modes: </b>There are three modes of correction
+for enr images. In mode 1 , the parameters of the CTF used for
+correcting is estimated from enr image itself. In mode 2&nbsp; the
+parameters estimated for the far from focus images are used to correct
+near to focus images after compensating for the defocus. In mode 3, the
+parameters estimated for the focus images are used to correct near to
+focus images after compensating for the defocus. There are two modes of
+correction for the far from focus files. Mode 1 uses the parameters of
+the far from focus images while mode 3 uses the parameters of the focus
+images after compensating for the defocus. There is no mode 2. <br>
+    </p>
+  </li>
+  <li>
+    <p align="left"><b>Directories:</b><br>
+    </p>
+    <ol>
+      <li><span style="font-weight: bold;">Space 1:</span>&nbsp;
+matfiles directory created by ACE while estimating the CTF
+parameters.&nbsp; </li>
+      <li><span style="font-weight: bold;">Space 2:</span>&nbsp;
+Directory for storing the corrected images. This directory is created
+if it does not exist. </li>
+    </ol>
+  </li>
+  <li>
+    <p align="left"><b>Message Board: </b>Displays messages. <br>
+    </p>
+  </li>
+  <li>
+    <p align="left"><b>Help:</b> Displays this page.</p>
+  </li>
+  <li>
+    <p align="left"><b>Process: </b>Begins correcting the selected
+images.</p>
+  </li>
+  <li>
+    <p align="left"><b>File list: </b>Displays the list of input files
+to select from. Left mouse click selects the input file. To select
+multiple files use CTRL + click and to select all files use CTRL + a
+.&nbsp; <br style="font-weight: bold;">
+    </p>
+  </li>
+  <li><span style="font-weight: bold;">Console output</span>: The
+output in the console can be interpretted in this way.</li>
+</ol>
+<table style="width: 100%;" border="1">
+  <tbody>
+    <tr>
+      <td style="width: 10%;">
+      <div style="text-align: center;"> </div>
+      <div style="text-align: center;"><font size="2">filename </font>
+      </div>
+      </td>
+      <td style="text-align: center; width: 20%;">
+      <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">Nominal Defocus of the file to be corrected<br>
+      </font></p>
+      </td>
+      <td style="height: 14px; text-align: center; width: 20%;">
+      <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">Nominal Defocus of the file whose matfile was&nbsp; used for
+correction<br>
+      </font></p>
+      </td>
+      <td style="text-align: center; width: 20%;">
+      <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">Defocus 1 (used in correction)<br>
+      </font></p>
+      </td>
+      <td style="height: 14px; text-align: center; width: 20%;">
+      <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">Defocus&nbsp; 2 (used in correction) </font></p>
+      </td>
+      <td style="height: 14px; text-align: center; width: 10%;">
+      <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">time taken (seconds)<br>
+      </font></p>
+      </td>
+    </tr>
+    <tr>
+      <td style="height: 16px; text-align: center; width: 10%;">
+      <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;">filename.mrc</p>
+      </td>
+      <td style="text-align: center; width: 20%;">
+      <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">&nbsp;0.6</font></p>
+      </td>
+      <td style="height: 16px; text-align: center; width: 20%;">
+      <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2"> 2.0000</font></p>
+      </td>
+      <td style="text-align: center; width: 20%;">
+      <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">0.623382</font></p>
+      </td>
+      <td style="height: 16px; text-align: center; width: 20%;">
+      <p
+ style="margin: 0pt; text-indent: 0pt; word-spacing: 0pt; line-height: 100%;"><font
+ size="2">0.5817</font></p>
+      </td>
+      <td style="height: 16px; text-align: center; width: 10%;">52.53<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+See also documentation for <a href="ace.html">ace</a>,&nbsp; <a
+ href="acedemo.html">acedemo</a> ,&nbsp; <a href="acedemo_correct.html">acedemo_correct</a>
+and&nbsp; <a href="leginon_ace_gui.html">leginon_ace_gui</a> . <br>
+© <small>2004-2005 Satya P. Mallick</small><br>
+</body>
+</html>

@@ -256,7 +256,7 @@ if isbitmap(options)
             % Compute the resolution
             res = options.magnify * get(0, 'ScreenPixelsPerInch') / 25.4e-3;
             % Save the png
-            imwrite(A, [options.name '.png'], 'Alpha', alpha, 'ResolutionUnit', 'meter', 'XResolution', res, 'YResolution', res);
+            imwrite(A, [options.name '.png'], 'Alpha', double(alpha), 'ResolutionUnit', 'meter', 'XResolution', res, 'YResolution', res);
             % Clear the png bit
             options.png = false;
         end

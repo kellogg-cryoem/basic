@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=iso-8859-1">
+	<TITLE>ACE Documentation</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 1.0.2  (Linux)">
+	<META NAME="CREATED" CONTENT="20040915;11434500">
+	<META NAME="CHANGED" CONTENT="20040915;11490400">
+	<META NAME="ProgId" CONTENT="FrontPage.Editor.Document">
+	<META HTTP-EQUIV="Content-Language" CONTENT="en-us">
+</HEAD>
+<BODY LANG="en-US">
+<P ALIGN=CENTER><FONT SIZE=5>LEGINON ACE DOCUMENTATION</FONT></P>
+<HR>
+<P ALIGN=CENTER><IMG SRC="images/leginon_ace_gui.png" NAME="Graphic1" ALIGN=BOTTOM WIDTH=800 HEIGHT=402 BORDER=0></P>
+<P ALIGN=CENTER>&nbsp;</P>
+<OL>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><B>Experiment Name :</B>
+	Name of the experiment. The directory corresponding to the
+	experiment name is shown below the experiment name. 
+	</P>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><B>Database Type: </B>The
+	two database types are Leginon1 and Leginon2 . In Leginon1 the
+	Kilovolts (KV) and pixel size (ps) cannot be queried and so the user
+	has to provide that information.&nbsp; 
+	</P>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><B>Boolean:&nbsp;</B> 
+	</P>
+	<UL>
+		<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><B>Astigmatism</B>&nbsp;
+		: Turns on astigmatism estimation. Otherwise circular averaging is
+		done.&nbsp; 
+		</P>
+		<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><B>Display </B>:
+		Stores graphs for visual inspection of results in output image
+		directory.&nbsp; 
+		</P>
+		<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><B>Write to Database</B>:
+		Writes the calculated parameters to the database in addition to
+		writing to mat files.&nbsp; 
+		</P>
+	</UL>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><B>File Type:&nbsp;
+	</B>Choose the file type and the corresponding file filter. The file
+	types foc, efar and enr correspond to focus, far from focus and near
+	to focus&nbsp; respectively. 
+	</P>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><B>Directories :&nbsp;</B>
+		</P>
+	<UL>
+		<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><B>Space 1 : </B>The
+		first space is for the parent directory inside which the output is
+		stored. This directory should exist. You can browse to select a
+		directory. 
+		</P>
+		<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><B>Space 2 :</B>&nbsp;
+		Directory for mat files. This is a relative path. The complete path
+		is shown on the textbox to it right.&nbsp; 
+		</P>
+		<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><B>Space 3 :</B>
+		Directory for output images.&nbsp; This is a relative path. The
+		complete path is shown on the textbox to it right.&nbsp; 
+		</P>
+		<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><B>Space 4:&nbsp;
+		</B>Directory for temporary files. This is a relative path. The
+		complete path is shown on the textbox to it right.&nbsp; If two
+		copies of ACE are run from the same directory. The user should use
+		two different temporary files directory to avoid conflict between
+		the two copies of ACE.&nbsp; 
+		</P>
+	</UL>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><B>Advanced:&nbsp;</B> 
+	</P>
+	<UL>
+		<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><B>Edge Threshold :
+		</B>The threshold set for edge detection for carbon and ice images.
+		These values should be increased&nbsp; if the more edges detected
+		in the power spectrum than the an elliptically shaped ring.&nbsp;
+		Similarly if no edges are detected, the value should be decreased.
+		Usually one should not need to change these values because ACE
+		searches thru a range of values&nbsp; to get a good threshold.&nbsp;
+				</P>
+		<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><B>Power Factor:&nbsp;
+		</B>This determines the location of the upper cutoff frequency. If
+		you notice that there are ripples visible in the power spectrum
+		even beyond the upper cutoff frequency you can increase this value
+		to accommodate more part of the power spectrum. The value should be
+		decreased if the signal to noise ratio is less and only a few
+		ripples are visible. 
+		</P>
+		<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><B>Averaging overlap
+		and Field size: </B>Smaller images are cropped from the image
+		(micrograph) given to the program. The power spectrum is found for
+		all small images and they are averaged to improve signal to noise
+		ratio. Field size refers to the width of each small image cropped.
+		An Averaging overlap of &quot;a&quot; implies that the successive
+		images have an overalp of (1-a)*field size. In other words a higher
+		value of Averaging overlap means more number of smaller images are
+		used for averaging.&nbsp; If the signal to noise ratio is very low,
+		the averaging overlap should be changed for better estimate of
+		power spectrum. 
+		</P>
+	</UL>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><B>File List box:&nbsp;
+	</B>Shows the list of file of the type selected. A single file can
+	be selected by clicking on the filename. Multiple files can be
+	selected by CTRL+click and all files can be selected by CTRL+A 
+	</P>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><B>Viewer: </B>The
+	viewer you would like to see your images. If gqview is used, it
+	takes you to the correct output directory. Other viewers (like xv )
+	are simply launched. 
+	</P>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0cm"><B>View Output:</B>
+	Launches the viewer. 
+	</P>
+	<LI><P ALIGN=LEFT><B>Process:&nbsp; </B>Starts processing of the
+	selected images. 
+	</P>
+	<LI><P ALIGN=LEFT><B>Help:&nbsp; </B>Displays this page. 
+	</P>
+	<LI><P ALIGN=LEFT>Console Output: The console output displayed are
+	partial results in the form 
+	</P>
+</OL>
+<P ALIGN=LEFT STYLE="margin-left: 2cm"><FONT SIZE=2>Filename
+Nominal_Defocus init_defocus defocus1 defocus2 amp_cont astig_ratio
+astig_angle confidence</FONT></P>
+<P ALIGN=LEFT STYLE="margin-left: 2cm"><FONT SIZE=2>filename.mrc
+2.000000 2.068837 2.068963 2.068963 -0.000000  1.000000 0.000000
+0.946178</FONT></P>
+<OL>
+	<UL>
+		<LI><P ALIGN=LEFT><FONT SIZE=2>Nominal_defocus      : defocus set
+		by the microscope.</FONT></P>
+		<LI><P ALIGN=LEFT><FONT SIZE=2>init_defocus         : The initial
+		crude estimate of the defocus.</FONT></P>
+		<LI><P ALIGN=LEFT><FONT SIZE=2>defocus1,defocus2    : The two
+		defoci</FONT></P>
+		<LI><P ALIGN=LEFT><FONT SIZE=2>amp_cont             : amplitude
+		contrast</FONT></P>
+		<LI><P ALIGN=LEFT><FONT SIZE=2>astig_ratio          : Ratio of
+		major and minor axes of the ellipse.</FONT></P>
+		<LI><P ALIGN=LEFT><FONT SIZE=2>astig_angle          : Angle of
+		astigmatism ( angle made by the major axis of the ellipse with the
+		x-axis)</FONT></P>
+		<LI><P ALIGN=LEFT><FONT SIZE=2>confidence           : The
+		confidence placed on the estimation ( 0-1)</FONT></P>
+	</UL>
+	<P ALIGN=LEFT>&nbsp;</P>
+	<P ALIGN=LEFT>&nbsp;</P>
+	<P ALIGN=LEFT>&nbsp; 
+	</P>
+</OL>
+</BODY>
+</HTML>

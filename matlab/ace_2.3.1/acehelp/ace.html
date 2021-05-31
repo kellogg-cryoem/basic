@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="Content-Language" content="en-us">
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=windows-1252">
+  <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+  <meta name="ProgId" content="FrontPage.Editor.Document">
+  <title>ACE Documentation</title>
+</head>
+<body>
+<p align="center"><font size="5">ACE: Automated CTF Estimation</font></p>
+<hr>
+<div style="text-align: center;"><img alt="ACE" src="images/ace.jpg"
+ style="width: 512px; height: 512px;" align="top"><br>
+</div>
+<br>
+<b><big><big>About<br>
+</big></big></b>ACE is a <a href="http://mathworks.com/">MATLAB</a>
+Toolbox for automatically
+recovering the parameters of the contrast transfer function ( including
+astigmatism ), the envelope function and the noise noise spectrum from
+images of carbon or particles embedded in ice. It
+requires the MATLAB image processing and optimization toolboxes.&nbsp;
+The algorithm was
+jointly developed by<a href="http://graphics.ucsd.edu/%7Espmallick">
+Satya P. Mallick</a> , <a href="http://www.cse.ucsd.edu/%7Ekriegman/">David
+Kriegman</a>, <a href="http://ami.scripps.edu/people/people?id=4">Clint
+Potter</a> and <a href="http://ami.scripps.edu/people/people?id=1">Bridget
+Carragher</a>.&nbsp; The core code is written and maintained by&nbsp; <a
+ href="http://graphics.ucsd.edu/%7Espmallick">Satya P. Mallick</a>. The
+code for integration with Leginon database is written by <a
+ href="http://ami.scripps.edu/people/people?id=2">Denis Fellman</a>.&nbsp;
+For questions and comments,&nbsp; mail to <a
+ href="mailto:spmallick@graphics.ucsd.edu">spmallick@graphics.ucsd.edu</a>.<span
+ style="font-weight: bold;"><br>
+<br>
+</span><b><big><big>License<br>
+</big></big></b>This program is free software; you can redistribute it
+and/or modify it
+under the terms of the <a href="gpl.txt">GNU General Public License</a>
+as published by the
+Free Software Foundation; either version 2 of the License, or (at your
+option) any later version. This program is
+distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+Public License for more details. You should have received a copy of the
+GNU General Public License along with this program; if not, write to
+the Free SoftwarFoundation, Inc., 51 Franklin Street, Fifth Floor,
+Boston, MA 02110-1301, USA.
+<p align="left"><b><big><big>Distribution</big></big></b><br>
+ACE is distributed as a tarball (ace_version.tgz )
+which is
+available in the following at the following locations <br>
+<a href="http://ami.scripps.edu/software/ace/">http://ami.scripps.edu/software/ace/</a><br>
+<span style="text-decoration: underline;"></span><a
+ href="http://graphics.ucsd.edu/%7Espmallick/research/ace/">http://graphics.ucsd.edu/~spmallick/research/ace/</a><br>
+The later link contains all previous versions.<br>
+<b><br>
+<big><big>Installation</big></big></b><br>
+<span style="font-weight: bold;">System Requirement: </span>ACE
+is tested on <span style="font-weight: bold;">MATLAB 7.00</span> and <span
+ style="font-weight: bold;">7.01.</span>&nbsp; running on Linux<span
+ style="font-weight: bold;">.</span> Although not tested extensively
+for any other
+*nix OS , Windows or MAC, it should work.&nbsp; A machine with 1GB RAM
+is recommended for processing images
+of size 4k x 4k . <br>
+</p>
+Download the file ace_version.tgz from any of the above locations.
+Unzip, untar the above file using <br>
+<small><br>
+tar -zxvf ace_version.tgz </small><br>
+<br>
+A directory called ace_cvs will be created.
+Installation complete! You can choose to work in this directory or add
+the directory to the matlab path using the matlab command addpath.<br>
+<p align="left"><big><big><b>Getting Started</b></big></big><br>
+<span style="font-weight: bold;">Non-Leginon Users :</span><b>
+</b>A demo version is available for non-leginon
+users. <br>
+</p>
+<ol>
+</ol>
+<ol>
+  <li><span style="font-style: italic;">Estimation:</span>To start
+using
+it start MATLAB&nbsp; and type "acedemo"at
+the matlab command prompt. A Graphical User Interface (GUI) would
+appear. The documentation
+for acedemo can be accessed using the HELP button or by typing "doc
+acedemo" at the command prompt. The same help is also available
+at&nbsp; <b><a href="acedemo.html">ACE
+DEMO Documentation</a>.&nbsp;</b>&nbsp;</li>
+  <li><span style="font-style: italic;">Correction:</span><b> </b>After
+estimating the parameters of the CTF using leginon_ace_gui, the
+correction can be done by typing "acedemo_correct"; at the matlab
+command prompt. The documentation for the GUI can be accessed using the
+HELP button or by typing "doc acedemo_correct" at the command prompt
+.&nbsp; The same help is also available at&nbsp; <a
+ href="acedemo_correct.html"><b>ACE DEMO CORRECT Documentation. &nbsp;</b></a></li>
+</ol>
+<p align="left"><b>Leginon Users:&nbsp;&nbsp;</b></p>
+<ol>
+  <li>
+    <p align="left"><span style="font-style: italic;">Estimation:</span><b>
+    </b>Start MATLAB and type "leginon_ace_gui"<b> </b>at the command
+prompt.<b> </b>The documentation for the GUI can be accessed using the
+HELP button or by typing "doc leginon_ace_gui" at the command prompt
+.&nbsp; The same help is available at&nbsp;<b> <a
+ href="leginon_ace_gui.html">LEGINON ACE Documentation</a> .</b></p>
+  </li>
+  <li>
+    <p align="left"><span style="font-style: italic;">Correction:</span><b>
+    </b>After estimating the parameters of the CTF using
+leginon_ace_gui, the correction can be done by typing
+"leginon_ace_correct"; at the matlab command prompt. The documentation
+for the GUI can be accessed using the HELP button or by typing "doc
+leginon_ace_correct" at the command prompt .&nbsp; The same help is
+also available at &nbsp;<b><a href="leginon_ace_correct.html">LEGIONON
+ACE CORRECT Documentation. &nbsp;</a></b> </p>
+  </li>
+</ol>
+<p align="left">This page can also be display by typing "doc ace" in
+the matlab command prompt. <br>
+</p>
+<p align="left">© <small>2004-2005 Satya P. Mallick</small> </p>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="Content-Language" content="en-us">
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=windows-1252">
+  <meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+  <meta name="ProgId" content="FrontPage.Editor.Document">
+  <title>ACE Documentation</title>
+</head>
+<body>
+<p align="center"><font size="5">ACE DEMO Documentation</font></p>
+<hr>
+<p align="center">&nbsp;<img border="0" src="images/acedemo.png" width="853" height="460"></p>
+<ol>
+  <li>
+    <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left">&nbsp; <b>Files and directories:</b> </p>
+    <ul>
+      <li>
+        <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Space 1 : </b>The input file ( MRC format );&nbsp; </p>
+      </li>
+      <li>
+        <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Space 2 :</b> A directory for storing the mat files.
+Mat files store the CTF parameters for subsequent use for
+correction.&nbsp;&nbsp; </p>
+      </li>
+      <li>
+        <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Space 3 : </b>The directory for output graphs. Two
+graphs are stored. One of them shows the result of edge detection and
+ellipse fitting. The other shows the various stages of the
+algorithm.&nbsp; </p>
+      </li>
+      <li>
+        <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Space 4 : </b>Directory for storing the temporary
+files generated.&nbsp; </p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Micrograph:&nbsp;</b> </p>
+    <ul>
+      <li>
+        <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>KV : </b>The operating voltage of the
+microscope.&nbsp; </p>
+      </li>
+      <li>
+        <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Pixel size :</b> The size of the pixel in
+Angstroms/pixel&nbsp; </p>
+      </li>
+      <li>
+        <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Spherical Aberration:</b> The spherical aberration of
+the objective lens.&nbsp; </p>
+      </li>
+      <li>
+        <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Nominal Defocus:</b> An approximate defocus value to
+fall back on in case the edge detection fails.&nbsp; </p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Medium:</b> Carbon or ice. This is a means of
+specifying the signal strength of the data. If negative stained data is
+used, you can use "ice" option.&nbsp; </p>
+  </li>
+  <li>
+    <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Boolean:&nbsp;</b> </p>
+    <ul>
+      <li>
+        <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Astigmatism: </b>Turns on astigmatism
+estimation.&nbsp; </p>
+      </li>
+      <li>
+        <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Display:</b> If the display is turned on, two output
+graphs are stored in the output graphs directory.&nbsp; </p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Advanced:&nbsp;</b> </p>
+    <ul>
+      <li>
+        <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Edge Threshold : </b>The threshold set for edge
+detection for carbon and ice images. These values should be
+increased&nbsp; if the more edges detected in the power spectrum than
+the an elliptically shaped ring.&nbsp; Similarly if no edges are
+detected, the value should be decreased. Usually one should not need to
+change these values because ACE searches thru a range of values&nbsp;
+to get a good threshold.&nbsp; </p>
+      </li>
+      <li>
+        <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Compress Dynamic Range: </b>For ice images if the signal to
+        noise ratio looks very good ( i.e. Thon rings are very prominent ) and
+        still the result of edge detection is incorrect, check this
+        option.&nbsp; </p>
+      </li>
+      <li>
+        <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Power Factor:&nbsp; </b>This determines the location
+of the upper cutoff frequency. If you notice that there are ripples
+visible in the power spectrum even beyond the upper cutoff frequency
+you can increase this value to accommodate more part of the power
+spectrum. The value should be decreased if the signal to noise ratio is
+less and only a few ripples are visible. </p>
+      </li>
+      <li>
+        <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Averaging overlap and Field size: </b> Smaller images
+are cropped from the image (micrograph) given to the program. The power
+spectrum is found for all small images and they are averaged to improve
+signal to noise ratio. Field size refers to the width of each small
+image cropped. An Averaging overlap of "a" implies that the successive
+images have an overalp of (1-a)*field size. In other words a higher
+value of Averaging overlap means more number of smaller images are used
+for averaging.&nbsp; If the signal to noise ratio is very low, the
+averaging overlap should be changed for better estimate of power
+spectrum. </p>
+      </li>
+      <li>
+        <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Hi-mag/Hi-defocus/Lo-ps: </b>When the defocus is large or the
+        pixel-size is very small ( which is equivalent to Hi-magnification) the
+        first zero of the CTF might be too close to the origin. Increase the
+        value of resample.&nbsp;&nbsp; </p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Help: </b>Displays this page. </p>
+  </li>
+  <li>
+    <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Process: </b>Starts processing the micrograph. </p>
+  </li>
+  <li>
+    <p style="margin: 0pt; line-height: 150%; word-spacing: 0pt;"
+ align="left"><b>Console Output: </b>The console (the command prompt
+in MATLAB desktop ) displays partial results in the following format.
+An example is also shown. </p>
+    <table border="1" width="815">
+      <tbody>
+        <tr>
+          <td align="center" width="78"><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;
+Filename&nbsp;</font></td>
+          <td align="center" height="14" width="55"><font size="2">&nbsp;Nominal
+Defocus</font></td>
+          <td align="center" height="14" width="89"><font size="2">&nbsp;Crude
+defocus estimate&nbsp;</font></td>
+          <td align="center" height="14" width="104"><font size="2">Refined
+defocus1&nbsp; estimate&nbsp;</font></td>
+          <td align="center" height="14" width="115"><font size="2">Refined
+defocus2 estimate</font></td>
+          <td align="center" height="14" width="82"><font size="2">Amplitude
+contrast&nbsp;</font></td>
+          <td align="center" height="14" width="69"><font size="2">Astigmatism
+ratio</font></td>
+          <td align="center" height="14" width="69"><font size="2">Astigmatism
+angle&nbsp;</font></td>
+          <td align="center" height="14" width="96">
+          <p align="center"><font size="2">Confidence on results</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" height="16" width="78">filename.mrc</td>
+          <td align="center" height="16" width="55"><font size="2">&nbsp;2.000000&nbsp;</font></td>
+          <td align="center" height="16" width="89"><font size="2">2.068837</font></td>
+          <td align="center" height="16" width="104"><font size="2">&nbsp;1.975</font></td>
+          <td align="center" height="16" width="115"><font size="2">&nbsp;2.15</font></td>
+          <td align="center" height="16" width="82"><font size="2">&nbsp;0.06</font></td>
+          <td align="center" height="16" width="69"><font size="2">&nbsp;0.96
+          </font></td>
+          <td align="center" height="16" width="69"><font size="2">&nbsp;55.5
+          </font></td>
+          <td align="center" height="16" width="96">0.9</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <br>
+</ol>
+See also documentation for <a href="ace.html">ace</a>,&nbsp; <a
+ href="acedemo_correct.html">acedemo_correct</a> ,&nbsp; <a
+ href="leginon_ace_gui.html">leginon_ace_gui</a> and <a
+ href="leginon_ace_correct.html">leginon_ace_correct</a> . <br>
+© <small>2004-2005 Satya P. Mallick</small>
+</body>
+</html>
